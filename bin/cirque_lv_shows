@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "cirque_lv_shows"
+
+
+CirqueLvShows::CLI.new.call

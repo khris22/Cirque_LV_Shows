@@ -1,6 +1,8 @@
-require "cirque_lv_shows/version"
+#acting as an environment
+require 'open-uri'
+require 'nokogiri'
+require 'pry'
 
-module CirqueLvShows
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require_relative "cirque_lv_shows/version"
+require_relative './cirque_lv_shows/shows'
+require_relative './cirque_lv_shows/cli'
