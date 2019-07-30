@@ -1,4 +1,3 @@
-#our CLI Controller
 class CirqueLvShows::CLI
 
     def call
@@ -9,11 +8,10 @@ class CirqueLvShows::CLI
 
     def list_shows
         puts "Cirque Du Soleil Shows in Las Vegas"
-        @shows = CirqueLvShows::Shows.all
-        @shows.each.with_index(1) do |show, i|
-            puts "#{i}. #{show.name}"
+        @shows = CirqueLvShows::Scraper.list
+        @shows.map do |show, i|
+            puts "(#{i + 1})  #{show.name}"
         end
-
     end
 
     def menu
@@ -34,6 +32,6 @@ class CirqueLvShows::CLI
     end
 
     def goodbye
-        puts "Enjoy the show!"
+        puts "Thank you! Have a great day!"
     end
 end
