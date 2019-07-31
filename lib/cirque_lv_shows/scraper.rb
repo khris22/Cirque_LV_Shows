@@ -10,20 +10,10 @@ class CirqueLvShows::Scraper
     def self.list
         shows = []
         doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/"))
-        title = doc.search(".show-caroussel__title").children.map{|name| name.text}
-        title.partition.with_index { |_, i| i.even? }# now in nested array
+        title = doc.css(".show-caroussel__title").children.first.text 
+        url = doc.css(".show-caroussel__cta a").attr("href").value
 
-        # title = doc.search(".section__title.about__title").text.gsub("ABOUT ", "")
-        # show_name = doc.search(".explore-shows__item__caption")[0..-1].text
         binding.pry
-    end
-    
-
-    def self.scrape_shows
-        shows = []
-
-        shows << self.scrape_cirque
-
     end
     
     def get_page
