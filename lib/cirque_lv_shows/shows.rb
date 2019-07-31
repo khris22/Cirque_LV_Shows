@@ -1,3 +1,4 @@
-class Shows
+class CirqueLvShows::Shows
+
 
 end

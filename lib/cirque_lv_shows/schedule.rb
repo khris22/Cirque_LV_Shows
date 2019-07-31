@@ -1,5 +1,5 @@
-class Schedule
+class CirqueLvShows::Schedule
 
-    
+
 
 end

@@ -1,62 +1,42 @@
 class CirqueLvShows::Scraper
     attr_accessor :name, :venue, :schedule, :description, 
     
-
-
     def self.all
         self.scrape_shows
     end
 
-    def self.list
+    def list
         shows = []
         doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/"))
         title = doc.css(".show-caroussel__title").children.first.text 
         url = doc.css(".show-caroussel__cta a").attr("href").value
-
-        binding.pry
+        # binding.pry
     end
     
+    def self.scrape_shows
+        shows = []
+        shows << self.scrape_cirque
+    end
+
     def get_page
-        doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
+        doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas#{shows.url}"))
     end 
 
     def self.scrape_cirque
-        show_name = 
-
-        
-        name = doc.css("div.caroussel__item.explore-shows__item div.explore-shows__item__caption")[0].text
-            name
-            #this will list all shows. put[0] index before .text to see individual show
-            #LIST
-            description =
-            shows = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
-            show_name = doc.search("div.explore-shows__item__caption")[0].text.gsub("The ", "")
+            show_details = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
+            # show_name = show_details.search("div.explore-shows__item__caption")[0].text.gsub("The ", "")
             #MORE INFO
             #show attributes:
-            shows = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/#{show_name}")) #interpolate the name of show?
-            title = shows.search(".section__title.about__title").text.gsub("ABOUT ", "")
-            venue  = shows.search(".show-hero__venue").text.strip
-            subtitle = shows.search(".section__subtitle.about__subtitle").text.strip
-            description = shows.css("div.about__text").text.gsub(/\s+/, ' ').strip
-            
-            #schedule attributes:
-            calendar = shows.search(".calendar.next-show__calendar").text.strip # not scraping correctly
-            "No shows scheduled this week!"
-
-
-
-       binding.pry
+            # shows = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/#{show_name}")) #interpolate the name of show?
+            # title = show_details.search(".section__title.about__title").text.gsub("ABOUT ", "")
+            venue  = show_details.search(".show-hero__venue").text.strip
+            subtitle = show_details.search(".section__subtitle.about__subtitle").text.strip
+            description = show_details.css("div.about__text").text.gsub(/\s+/, ' ').strip
+            # #schedule attributes:
+            calendar_note = show_details.search(".calendar__note").text.strip
+            binding.pry      
     end
 
   
 
 end
-
-# [29] pry(CirqueLvShows::Shows)> name.downcase.split.join("-")
-# => "michael-jackson-one"
-# [30] pry(CirqueLvShows::Shows)> name = doc.search("div.explore-shows__item__caption")[6].text.strip
-# => "R.U.N"
-# [31] pry(CirqueLvShows::Shows)> name.downcase.gsub(".","")
-# => "run"
-# [32] pry(CirqueLvShows::Shows)> name.include?(".")
-# => true
