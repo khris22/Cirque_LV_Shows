@@ -1,42 +1,47 @@
 class CirqueLvShows::Scraper
-    attr_accessor :name, :venue, :schedule, :description, 
+    attr_accessor :title, :venue, :schedule, :description, 
     
     def self.all
         self.scrape_shows
     end
 
-    def list
-        shows = []
+    def self.list
         doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/"))
-        title = doc.css(".show-caroussel__title").children.first.text 
-        url = doc.css(".show-caroussel__cta a").attr("href").value
-        # binding.pry
+        list_shows = doc.css(".")
+
+        # show = CirqueLvShows::Shows.new
+        #     show.title = doc.css(".show-caroussel__title").children.first.text 
+        #     # show.url = url = doc.css(".show-caroussel__cta a").attr("href").value
+            binding.pry
     end
     
     def self.scrape_shows
         shows = []
-        shows << self.scrape_cirque
+        shows << self.scrape_page
     end
 
-    def get_page
-        doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas#{shows.url}"))
+    def self.get_page
+        # show_details = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
+        # doc = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas#{shows.url}")) #needs to put url to go to the next web to scrape
     end 
 
-    def self.scrape_cirque
-            show_details = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
-            # show_name = show_details.search("div.explore-shows__item__caption")[0].text.gsub("The ", "")
+    def self.scrape_page
+        show_details = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/ka"))
             #MORE INFO
-            #show attributes:
-            # shows = Nokogiri::HTML(open("https://www.cirquedusoleil.com/las-vegas/#{show_name}")) #interpolate the name of show?
-            # title = show_details.search(".section__title.about__title").text.gsub("ABOUT ", "")
+            title = show_details.search(".about__title").text
             venue  = show_details.search(".show-hero__venue").text.strip
-            subtitle = show_details.search(".section__subtitle.about__subtitle").text.strip
-            description = show_details.css("div.about__text").text.gsub(/\s+/, ' ').strip
-            # #schedule attributes:
-            calendar_note = show_details.search(".calendar__note").text.strip
-            binding.pry      
+            subtitle = show_details.search(".about__subtitle").text.strip
+            description = show_details.css(".about__text").text.gsub(/\s+/, ' ').strip
+
+            # binding.pry      
     end
 
+    def get_calendar
+        get_page
+        # #schedule attributes:
+        calendar_note = show_details.search(".calendar__note").text.strip
+        # available_dates = 
+    end
   
 
 end

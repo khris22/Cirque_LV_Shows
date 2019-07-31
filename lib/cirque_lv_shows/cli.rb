@@ -1,16 +1,18 @@
 class CirqueLvShows::CLI
 
     def call
+        puts "Cirque Du Soleil Shows in Las Vegas"
+        CirqueLvShows::Scraper.new.list
         list_shows
         menu
         goodbye
     end
 
     def list_shows
-        puts "Cirque Du Soleil Shows in Las Vegas"
+        
         @shows = CirqueLvShows::Scraper.list
-        @shows.map do |show, i|
-            puts "(#{i + 1})  #{show.name}"
+        @shows.each.with_index(1) do |show, i|
+            puts "(#{i})  #{show.name}"
         end
     end
 
