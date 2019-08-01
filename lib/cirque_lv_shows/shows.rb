@@ -3,6 +3,8 @@ class CirqueLvShows::Shows
 
     @@all = []
 
+    
+
     def self.all
         @@all
     end
